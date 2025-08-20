@@ -1,642 +1,701 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roblast - Tvoj herný svet</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0d1117;
-            color: #c9d1d9;
-        }
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 1rem;
-        }
-        .message-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 24px;
-            z-index: 1000;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            max-width: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-        .message-box button {
-            background-color: #238636;
-            color: #fff;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 16px;
-        }
-        .message-box input {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            padding: 8px;
-            color: #c9d1d9;
-            width: 100%;
-            max-width: 250px;
-            text-align: center;
-        }
-        .message-box .error-message {
-            color: #f85149;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
-        .generated-code {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 1.25rem;
-            text-align: center;
-            word-break: break-all;
-            margin-top: 1rem;
-            display: inline-block;
-        }
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 1rem;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblast - Tvoj herný svet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 1rem;
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 24px;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .message-box button {
+            background-color: #238636;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .message-box input {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 8px;
+            color: #c9d1d9;
+            width: 100%;
+            max-width: 250px;
+            text-align: center;
+        }
+        .message-box .error-message {
+            color: #f85149;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        .generated-code {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.25rem;
+            text-align: center;
+            word-break: break-all;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body class="bg-[#0d1117] text-[#c9d1d9]">
 
-    <header class="bg-[#161b22] shadow-lg sticky top-0 z-50">
-        <div class="container flex justify-between items-center py-4">
-            <div class="flex items-center space-x-2">
-                <img src="https://www.roblox.com/Roblox.ico" alt="Roblox Logo" class="h-8 w-8">
-                <a href="#" class="text-3xl font-bold text-[#58a6ff] hover:text-white transition-colors duration-200" onclick="showPage('roblast-page')">Roblast</a>
-            </div>
-            <nav class="hidden md:flex space-x-6">
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('roblast-page')">Roblox</a>
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('steam-page')">Steam Gaming</a>
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('trailer-page')">Trailer</a>
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('shop-page')">Obchod</a>
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">Stiahnuť</a>
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">Prihlásiť sa</a>
-            </nav>
-            <button class="md:hidden text-2xl" onclick="toggleMenu()">
-                &#9776;
-            </button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-[#161b22] p-4 text-center space-y-4">
-            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('roblast-page')">Roblox</a>
-            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('steam-page')">Steam Gaming</a>
-            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('trailer-page')">Trailer</a>
-            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('shop-page')">Obchod</a>
-            <a href="#" class="block hover:text-[#58a6ff]">Stiahnuť</a>
-            <a href="#" class="block hover:text-[#58a6ff]">Prihlásiť sa</a>
-        </div>
-    </header>
+    <header class="bg-[#161b22] shadow-lg sticky top-0 z-50">
+        <div class="container flex justify-between items-center py-4">
+            <div class="flex items-center space-x-2">
+                <img src="https://www.roblox.com/Roblox.ico" alt="Roblox Logo" class="h-8 w-8">
+                <a href="#" class="text-3xl font-bold text-[#58a6ff] hover:text-white transition-colors duration-200" onclick="showPage('roblast-page')">Roblast</a>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('roblast-page')">Roblox</a>
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('steam-page')">Steam Gaming</a>
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('trailer-page')">Trailer</a>
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200" onclick="showPage('shop-page')">Obchod</a>
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">Stiahnuť</a>
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">Prihlásiť sa</a>
+            </nav>
+            <button class="md:hidden text-2xl" onclick="toggleMenu()">
+                &#9776;
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-[#161b22] p-4 text-center space-y-4">
+            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('roblast-page')">Roblox</a>
+            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('steam-page')">Steam Gaming</a>
+            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('trailer-page')">Trailer</a>
+            <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('shop-page')">Obchod</a>
+            <a href="#" class="block hover:text-[#58a6ff]">Stiahnuť</a>
+            <a href="#" class="block hover:text-[#58a6ff]">Prihlásiť sa</a>
+        </div>
+    </header>
 
-    <main class="container py-8">
-        <div id="roblast-page" class="page-content">
-            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Objav svet Roblastu!</h1>
-                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Tvoja vstupenka do nekonečnej zábavy. Vytváraj, hraj a spoznávaj nových priateľov.</p>
-                <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="showMessage('Skvelý nápad! Sme radi, že sa k nám chceš pridať.')">
-                    Preskúmaj teraz
-                </button>
-            </section>
+    <main class="container py-8">
+        <div id="roblast-page" class="page-content">
+            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Objav svet Roblastu!</h1>
+                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Tvoja vstupenka do nekonečnej zábavy. Vytváraj, hraj a spoznávaj nových priateľov.</p>
+                <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="showMessage('Skvelý nápad! Sme radi, že sa k nám chceš pridať.')">
+                    Preskúmaj teraz
+                </button>
+            </section>
 
-            <section class="mb-12">
-                <h2 class="text-3xl font-bold mb-6 text-center">Naše najpopulárnejšie hry</h2>
-                <div id="roblast-game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    </div>
-                <p class="text-center mt-8 text-lg text-[#8b949e]">A ďalšie... Spolu máme vyše 200 hier!</p>
-            </section>
-        </div>
+            <section class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-center">Naše najpopulárnejšie hry</h2>
+                <div id="roblast-game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    </div>
+                <p class="text-center mt-8 text-lg text-[#8b949e]">A ďalšie... Spolu máme vyše 200 hier!</p>
+            </section>
+        </div>
 
-        <div id="steam-page" class="hidden page-content">
-            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Steam Gaming</h1>
-                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Objav najlepšie a najhranejšie hry z celého sveta počítačových hier!</p>
-            </section>
+        <div id="steam-page" class="hidden page-content">
+            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Steam Gaming</h1>
+                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Objav najlepšie a najhranejšie hry z celého sveta počítačových hier!</p>
+            </section>
 
-            <section class="mb-12">
-                <h2 class="text-3xl font-bold mb-6 text-center">Populárne Steam hry</h2>
-                <div id="steam-game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    </div>
-            </section>
-        </div>
+            <section class="mb-12">
+                <h2 class="text-3xl font-bold mb-6 text-center">Populárne Steam hry</h2>
+                <div id="steam-game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    </div>
+            </section>
+        </div>
 
-        <div id="trailer-page" class="hidden page-content">
-            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Oficiálne trailery</h1>
-                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Pozri si oficiálne trailery z hier na YouTube!</p>
-            </section>
-            <section class="mb-12">
-                <div id="trailer-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    </div>
-            </section>
-        </div>
+        <div id="trailer-page" class="hidden page-content">
+            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Oficiálne trailery</h1>
+                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Pozri si oficiálne trailery z hier na YouTube!</p>
+            </section>
+            <section class="mb-12">
+                <div id="trailer-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    </div>
+            </section>
+        </div>
 
-        <div id="shop-page" class="hidden page-content">
-            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Obchod Roblast</h1>
-                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Vygeneruj si simulovaný Drvie Pie kód pre tvoje nákupy.</p>
-                <div class="flex flex-col items-center">
-                    <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="generateDrviePieCode()">
-                        Vygenerovať nový kód
-                    </button>
-                    <div id="generated-code-container" class="mt-8 flex flex-col items-center hidden">
-                        <p class="text-lg text-[#8b949e] mb-2">Tvoj vygenerovaný kód:</p>
-                        <div class="flex items-center space-x-4">
-                            <div id="generated-code-display" class="generated-code"></div>
-                            <button onclick="copyToClipboard('generated-code-display')" class="bg-[#2a73c2] text-white p-2 rounded-full hover:bg-[#2263a4] transition-colors duration-200" aria-label="Kopírovať kód">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <p class="text-sm text-[#8b949e] mt-4">Kód je iba pre ukážku a nie je platný.</p>
-                    </div>
-                </div>
-            </section>
-        </div>
+        <div id="shop-page" class="hidden page-content">
+            <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Obchod Roblast</h1>
+                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Vygeneruj si simulovaný Drvie Pie kód pre tvoje nákupy.</p>
+                <div class="flex flex-col items-center">
+                    <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="generateDrviePieCode()">
+                        Vygenerovať nový kód
+                    </button>
+                    <div id="generated-code-container" class="mt-8 flex flex-col items-center hidden">
+                        <p class="text-lg text-[#8b949e] mb-2">Tvoj vygenerovaný kód:</p>
+                        <div class="flex items-center space-x-4">
+                            <div id="generated-code-display" class="generated-code"></div>
+                            <button onclick="copyToClipboard('generated-code-display')" class="bg-[#2a73c2] text-white p-2 rounded-full hover:bg-[#2263a4] transition-colors duration-200" aria-label="Kopírovať kód">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-sm text-[#8b949e] mt-4">Kód je iba pre ukážku a nie je platný.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
 
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6 text-center">Prečo si vybrať nás?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div class="bg-[#161b22] rounded-2xl p-8 shadow-md">
-                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">Komunita</h3>
-                    <p class="text-[#8b949e]">Ľahko sa spoj s priateľmi a objavuj nové hry spoločne.</p>
-                </div>
-                <div class="bg-[#161b22] rounded-2xl p-8 shadow-md">
-                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">Exkluzívny obsah</h3>
-                    <p class="text-[#8b949e]">Prístup k jedinečným herným módom a predmetom len na Roblaste.</p>
-                </div>
-                <div class="bg-[#161b22] rounded-2xl p-8 shadow-md">
-                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">Bezpečnosť</h3>
-                    <p class="text-[#8b949e]">Bezpečné prostredie pre všetkých hráčov s modernými nástrojmi na moderovanie.</p>
-                </div>
-            </div>
-        </section>
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center">Prečo si vybrať nás?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-[#161b22] rounded-2xl p-8 shadow-md">
+                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">Komunita</h3>
+                    <p class="text-[#8b949e]">Ľahko sa spoj s priateľmi a objavuj nové hry spoločne.</p>
+                </div>
+                <div class="bg-[#161b22] rounded-2xl p-8 shadow-md">
+                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">Exkluzívny obsah</h3>
+                    <p class="text-[#8b949e]">Prístup k jedinečným herným módom a predmetom len na Roblaste.</p>
+                </div>
+                <div class="bg-[#161b22] rounded-2xl p-8 shadow-md">
+                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">Bezpečnosť</h3>
+                    <p class="text-[#8b949e]">Bezpečné prostredie pre všetkých hráčov s modernými nástrojmi na moderovanie.</p>
+                </div>
+            </div>
+        </section>
 
-        <section class="text-center py-16 bg-[#161b22] rounded-3xl shadow-lg">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Pripravený začať?</h2>
-            <p class="text-lg text-[#8b949e] mb-8">Pripoj sa k miliónom hráčov a začni svoju cestu už dnes!</p>
-            <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="showMessage('Registrácia by sa teraz spúšťala... V skutočnom svete!')">
-                Zaregistruj sa zadarmo
-            </button>
-        </section>
-    </main>
+        <section class="text-center py-16 bg-[#161b22] rounded-3xl shadow-lg">
+            <h2 class="text-3xl sm:text-4xl font-bold mb-4">Pripravený začať?</h2>
+            <p class="text-lg text-[#8b949e] mb-8">Pripoj sa k miliónom hráčov a začni svoju cestu už dnes!</p>
+            <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="showMessage('Registrácia by sa teraz spúšťala... V skutočnom svete!')">
+                Zaregistruj sa zadarmo
+            </button>
+        </section>
+    </main>
 
-    <footer class="bg-[#161b22] py-8 mt-12 text-center text-[#8b949e]">
-        <div class="container">
-            <nav class="space-x-4 mb-4">
-                <a href="#" class="hover:text-white transition-colors duration-200">O nás</a>
-                <a href="#" class="hover:text-white transition-colors duration-200">Kariéra</a>
-                <a href="#" class="hover:text-white transition-colors duration-200">Podpora</a>
-                <a href="#" class="hover:text-white transition-colors duration-200">Podmienky používania</a>
-            </nav>
-            <div class="flex justify-center space-x-4 mb-4">
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22.25 12c0-5.46-4.9-9.89-10.9-9.89S.25 6.54.25 12c0 4.9 3.55 8.98 8.1 9.7v-7.14H5.72v-2.56h2.63V9.75c0-2.6 1.5-4.04 3.94-4.04 1.15 0 2.37.2 2.37.2v2.6h-1.34c-1.32 0-1.74.83-1.74 1.74v2.09h2.95l-.47 2.56h-2.48V21.7c4.55-.72 8.1-4.8 8.1-9.7z"/></svg>
-                </a>
-                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6.4c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.4-1.8-.6.4-1.3.7-2.1.9-.6-.6-1.4-.9-2.3-.9-1.8 0-3.3 1.5-3.3 3.3 0 .3.03.5.1.7-2.7-.1-5.1-1.4-6.8-3.5-.3.6-.5 1.2-.5 1.9 0 1.1.6 2.1 1.6 2.7-.5 0-1-.1-1.5-.4v.05c0 1.6 1.1 2.9 2.6 3.2-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.2 3.1 2.2-1.1.9-2.5 1.4-4.1 1.4-.3 0-.6 0-.8-.05 1.5.9 3.3 1.4 5.2 1.4 6.3 0 9.8-5.2 9.8-9.8 0-.1 0-.3 0-.4.7-.5 1.3-1.1 1.8-1.8z"/></svg>
-                </a>
-            </div>
-            <p class="text-sm">© 2025 Roblast. Všetky práva vyhradené.</p>
-        </div>
-    </footer>
+    <footer class="bg-[#161b22] py-8 mt-12 text-center text-[#8b949e]">
+        <div class="container">
+            <nav class="space-x-4 mb-4">
+                <a href="#" class="hover:text-white transition-colors duration-200">O nás</a>
+                <a href="#" class="hover:text-white transition-colors duration-200">Kariéra</a>
+                <a href="#" class="hover:text-white transition-colors duration-200">Podpora</a>
+                <a href="#" class="hover:text-white transition-colors duration-200">Podmienky používania</a>
+            </nav>
+            <div class="flex justify-center space-x-4 mb-4">
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22.25 12c0-5.46-4.9-9.89-10.9-9.89S.25 6.54.25 12c0 4.9 3.55 8.98 8.1 9.7v-7.14H5.72v-2.56h2.63V9.75c0-2.6 1.5-4.04 3.94-4.04 1.15 0 2.37.2 2.37.2v2.6h-1.34c-1.32 0-1.74.83-1.74 1.74v2.09h2.95l-.47 2.56h-2.48V21.7c4.55-.72 8.1-4.8 8.1-9.7z"/></svg>
+                </a>
+                <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6.4c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.4-1.8-.6.4-1.3.7-2.1.9-.6-.6-1.4-.9-2.3-.9-1.8 0-3.3 1.5-3.3 3.3 0 .3.03.5.1.7-2.7-.1-5.1-1.4-6.8-3.5-.3.6-.5 1.2-.5 1.9 0 1.1.6 2.1 1.6 2.7-.5 0-1-.1-1.5-.4v.05c0 1.6 1.1 2.9 2.6 3.2-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.2 3.1 2.2-1.1.9-2.5 1.4-4.1 1.4-.3 0-.6 0-.8-.05 1.5.9 3.3 1.4 5.2 1.4 6.3 0 9.8-5.2 9.8-9.8 0-.1 0-.3 0-.4.7-.5 1.3-1.1 1.8-1.8z"/></svg>
+                </a>
+            </div>
+            <p class="text-sm">© 2025 Roblast. Všetky práva vyhradené.</p>
+        </div>
+    </footer>
 
-    <script>
-        // Globálna premenná na uloženie posledného vygenerovaného kódu.
-        let lastGeneratedCode = null;
+    <script>
+        // Globálna premenná na uloženie posledného vygenerovaného kódu.
+        let lastGeneratedCode = null;
 
-        // Funkcia na prepínanie viditeľnosti mobilného menu.
-        function toggleMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        }
+        // Funkcia na prepínanie viditeľnosti mobilného menu.
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
 
-        // Funkcia na zobrazenie vlastného okna s hláškou namiesto alertu.
-        function showMessage(message) {
-            const messageBox = document.createElement('div');
-            messageBox.classList.add('message-box');
-            messageBox.innerHTML = `
-                <p>${message}</p>
-                <button onclick="this.parentNode.remove()">Zatvoriť</button>
-            `;
-            document.body.appendChild(messageBox);
-        }
+        // Funkcia na zobrazenie vlastného okna s hláškou namiesto alertu.
+        function showMessage(message) {
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box');
+            messageBox.innerHTML = `
+                <p>${message}</p>
+                <button onclick="this.parentNode.remove()">Zatvoriť</button>
+            `;
+            document.body.appendChild(messageBox);
+        }
 
-        // Funkcia na zobrazenie platobného okna s overením kódu.
-        // Prijíma URL, na ktorú má používateľa presmerovať po úspešnej platbe.
-        function showPaymentPrompt(gameTitle, gameUrl) {
-            // Kontrola, či existuje vygenerovaný kód.
-            if (!lastGeneratedCode) {
-                showMessage('Najskôr si musíš vygenerovať kód v sekcii Obchod!');
-                return;
-            }
+        // Funkcia na zobrazenie platobného okna s overením kódu.
+        // Prijíma URL, na ktorú má používateľa presmerovať po úspešnej platbe.
+        function showPaymentPrompt(gameTitle, gameUrl) {
+            // Kontrola, či existuje vygenerovaný kód.
+            if (!lastGeneratedCode) {
+                showMessage('Najskôr si musíš vygenerovať kód v sekcii Obchod!');
+                return;
+            }
 
-            // Odstránenie akéhokoľvek existujúceho platobného okna.
-            const existingBox = document.querySelector('.message-box');
-            if (existingBox) existingBox.remove();
+            // Odstránenie akéhokoľvek existujúceho platobného okna.
+            const existingBox = document.querySelector('.message-box');
+            if (existingBox) existingBox.remove();
 
-            const messageBox = document.createElement('div');
-            messageBox.classList.add('message-box');
-            
-            messageBox.innerHTML = `
-                <p>Prosím, zadaj 16-miestny kód Drvie Pie pre hru ${gameTitle}:</p>
-                <input type="text" id="drviepie-code-input" placeholder="Zadaj kód tu..." maxlength="19">
-                <span id="error-message" class="error-message hidden"></span>
-                <div class="flex gap-4">
-                    <button id="submit-payment">Zaplatit</button>
-                    <button onclick="this.closest('.message-box').remove()">Zrušiť</button>
-                </div>
-            `;
-            document.body.appendChild(messageBox);
+            const messageBox = document.createElement('div');
+            messageBox.classList.add('message-box');
+            
+            messageBox.innerHTML = `
+                <p>Prosím, zadaj 16-miestny kód Drvie Pie pre hru ${gameTitle}:</p>
+                <input type="text" id="drviepie-code-input" placeholder="Zadaj kód tu..." maxlength="19">
+                <span id="error-message" class="error-message hidden"></span>
+                <div class="flex gap-4">
+                    <button id="submit-payment">Zaplatit</button>
+                    <button onclick="this.closest('.message-box').remove()">Zrušiť</button>
+                </div>
+            `;
+            document.body.appendChild(messageBox);
 
-            const submitButton = document.getElementById('submit-payment');
-            const codeInput = document.getElementById('drviepie-code-input');
-            const errorMessage = document.getElementById('error-message');
-            
-            // Pridá event listener na tlačidlo Zaplatiť.
-            submitButton.addEventListener('click', () => {
-                // Odstráni medzery a pomlčky zadaného kódu, aby sa dalo ľahšie overiť.
-                const code = codeInput.value.replace(/[\s-]/g, '');
+            const submitButton = document.getElementById('submit-payment');
+            const codeInput = document.getElementById('drviepie-code-input');
+            const errorMessage = document.getElementById('error-message');
+            
+            // Pridá event listener na tlačidlo Zaplatiť.
+            submitButton.addEventListener('click', () => {
+                // Odstráni medzery a pomlčky zadaného kódu, aby sa dalo ľahšie overiť.
+                const code = codeInput.value.replace(/[\s-]/g, '');
 
-                if (code === lastGeneratedCode) {
-                    // Ak je kód správny, zobrazí hlášku o úspešnej platbe a presmeruje.
-                    showMessage('Platba bola úspešná! Otváram stránku s hrou...');
-                    // Presmeruje používateľa na URL hry v novom okne.
-                    window.open(gameUrl, '_blank');
-                    // Zatvorí platobné okno, keďže už nie je potrebné.
-                    messageBox.remove();
-                } else {
-                    // Ak kód nie je správny, zobrazí sa chyba.
-                    errorMessage.textContent = 'Neplatný kód. Skús znova.';
-                    errorMessage.classList.remove('hidden');
-                }
-            });
-        }
+                if (code === lastGeneratedCode) {
+                    // Ak je kód správny, zobrazí hlášku o úspešnej platbe a presmeruje.
+                    showMessage('Platba bola úspešná! Otváram stránku s hrou...');
+                    // Presmeruje používateľa na URL hry v novom okne.
+                    window.open(gameUrl, '_blank');
+                    // Zatvorí platobné okno, keďže už nie je potrebné.
+                    messageBox.remove();
+                } else {
+                    // Ak kód nie je správny, zobrazí sa chyba.
+                    errorMessage.textContent = 'Neplatný kód. Skús znova.';
+                    errorMessage.classList.remove('hidden');
+                }
+            });
+        }
 
-        // Funkcia na generovanie náhodného Drvie Pie kódu.
-        function generateDrviePieCode() {
-            const codeContainer = document.getElementById('generated-code-container');
-            const codeDisplay = document.getElementById('generated-code-display');
-            let generatedCode = '';
-            for (let i = 0; i < 16; i++) {
-                generatedCode += Math.floor(Math.random() * 10);
-            }
-            // Uloží neformátovaný kód do globálnej premennej.
-            lastGeneratedCode = generatedCode;
-            // Formátovanie kódu s pomlčkami.
-            const formattedCode = generatedCode.match(/.{1,4}/g).join('-');
-            codeDisplay.textContent = formattedCode;
-            codeContainer.classList.remove('hidden');
-        }
+        // Funkcia na generovanie náhodného Drvie Pie kódu.
+        function generateDrviePieCode() {
+            const codeContainer = document.getElementById('generated-code-container');
+            const codeDisplay = document.getElementById('generated-code-display');
+            let generatedCode = '';
+            for (let i = 0; i < 16; i++) {
+                generatedCode += Math.floor(Math.random() * 10);
+            }
+            // Uloží neformátovaný kód do globálnej premennej.
+            lastGeneratedCode = generatedCode;
+            // Formátovanie kódu s pomlčkami.
+            const formattedCode = generatedCode.match(/.{1,4}/g).join('-');
+            codeDisplay.textContent = formattedCode;
+            codeContainer.classList.remove('hidden');
+        }
 
-        // Funkcia na skopírovanie textu do schránky.
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            const range = document.createRange();
-            range.selectNode(element);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            try {
-                // Používa zastaralú metódu pre širšiu kompatibilitu v iframoch.
-                const successful = document.execCommand('copy');
-                const msg = successful ? 'Kód bol skopírovaný do schránky!' : 'Nepodarilo sa skopírovať kód.';
-                showMessage(msg);
-            } catch (err) {
-                showMessage('Nepodarilo sa skopírovať kód.');
-            }
-            window.getSelection().removeAllRanges();
-        }
+        // Funkcia na skopírovanie textu do schránky.
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const range = document.createRange();
+            range.selectNode(element);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            try {
+                // Používa zastaralú metódu pre širšiu kompatibilitu v iframoch.
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'Kód bol skopírovaný do schránky!' : 'Nepodarilo sa skopírovať kód.';
+                showMessage(msg);
+            } catch (err) {
+                showMessage('Nepodarilo sa skopírovať kód.');
+            }
+            window.getSelection().removeAllRanges();
+        }
 
-        // Funkcia na prepínanie medzi jednotlivými stránkami.
-        function showPage(pageId) {
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                if (page.id === pageId) {
-                    page.classList.remove('hidden');
-                } else {
-                    page.classList.add('hidden');
-                }
-            });
-            
-            // Ak je stránka Steam Gaming zobrazená prvýkrát, vygeneruje jej karty hier.
-            if (pageId === 'steam-page' && !document.getElementById('steam-game-list').children.length) {
-                createSteamGameCards();
-            }
-            // Ak je stránka Trailer zobrazená prvýkrát, vygeneruje jej videá.
-            if (pageId === 'trailer-page' && !document.getElementById('trailer-list').children.length) {
-                createTrailerVideos();
-            }
-        }
+        // Funkcia na prepínanie medzi jednotlivými stránkami.
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.remove('hidden');
+                } else {
+                    page.classList.add('hidden');
+                }
+            });
+            
+            // Ak je stránka Steam Gaming zobrazená prvýkrát, vygeneruje jej karty hier.
+            if (pageId === 'steam-page' && !document.getElementById('steam-game-list').children.length) {
+                createSteamGameCards();
+            }
+            // Ak je stránka Trailer zobrazená prvýkrát, vygeneruje jej videá.
+            if (pageId === 'trailer-page' && !document.getElementById('trailer-list').children.length) {
+                createTrailerVideos();
+            }
+        }
 
-        // Zoznam Roblox hier ako JavaScript objekt.
-        const roblastGames = [
-            {
-                title: "Brookhaven RP",
-                description: "Hraj roly a žij život v meste, kde máš absolútnu slobodu pri výbere svojho príbehu.",
-                url: "https://www.roblox.com/games/4924922222/Brookhaven-RP",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Brookhaven+RP",
-                trailer: "https://www.youtube.com/embed/H37Uv7l7r6o"
-            },
-            {
-                title: "Blox Fruits",
-                description: "Staň sa mocným pirátom alebo námorníkom a hľadaj legendárne diablovské ovocie.",
-                url: "https://www.roblox.com/games/2753915549/Blox-Fruits",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Blox+Fruits",
-                trailer: "https://www.youtube.com/embed/5F77L2d6n7k"
-            },
-            {
-                title: "Adopt Me!",
-                description: "Vytvor si domov, adoptuj a staraj sa o roztomilé domáce zvieratká v obrovskom svete.",
-                url: "https://www.roblox.com/games/920587237/Adopt-Me",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Adopt+Me!",
-                trailer: "https://www.youtube.com/embed/2-nFh0sD2iM"
-            },
-            {
-                title: "Pet Simulator 99",
-                description: "Zbieraj, trénuj a obchoduj so stovkami jedinečných zvieratiek v tomto obľúbenom simulátore.",
-                url: "https://www.roblox.com/games/13778548971/Pet-Simulator-99",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Pet+Simulator+99",
-                trailer: "https://www.youtube.com/embed/9fO48l1_cT0"
-            },
-            {
-                title: "Murder Mystery 2",
-                description: "Odhaľ vraha, chráň nevinných alebo prekaz plány ako vrah v tejto napínavej hre.",
-                url: "https://www.roblox.com/games/1428232911/Murder-Mystery-2",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Murder+Mystery+2",
-                trailer: "https://www.youtube.com/embed/mG33m1W1d28"
-            },
-            {
-                title: "Murder Mystery MM2 Factory",
-                description: "V tomto rozšírení obľúbeného Murder Mystery 2 sa presúvate do tajomnej továrne, kde sa každý krok počíta. ",
-                url: "https://www.roblox.com/share?code=759eeafde79d32449700202d2aeebd9b&type=ExperienceDetails&stamp=1755697774740",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=MM2+Factory",
-                trailer: "https://www.youtube.com/embed/sL2x5n-K42E"
-            },
-            {
-                title: "Evade",
-                description: "Uteč pred strašidelnými entitami v desivej naháňačke na rôznych mapách.",
-                url: "https://www.roblox.com/games/6684784400/Evade",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Evade",
-                trailer: "https://www.youtube.com/embed/1J6-z6fFqE8"
-            },
-            {
-                title: "Doors",
-                description: "Preži noc v hoteli, kde ťa za každými dverami čaká nová hororová príšera.",
-                url: "https://www.roblox.com/games/6516141723/Doors",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Doors",
-                trailer: "https://www.youtube.com/embed/v9qj82rNnRo"
-            },
-            {
-                title: "Blade Ball",
-                description: "Rýchla a adrenalínová hra, kde musíte odrážať loptu svojím mečom, aby ste prežili.",
-                url: "https://www.roblox.com/games/13730222180/Blade-Ball",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Blade+Ball",
-                trailer: "https://www.youtube.com/embed/3c013Bq1i2o"
-            },
-            {
-                title: "Tower of Hell",
-                description: "Skáč, šplhaj a prekonávaj nástrahy, aby si sa dostal na vrchol veže, pre ktorú nie sú žiadne kontrolné body!",
-                url: "https://www.roblox.com/games/196208682/Tower-of-Hell",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Tower+of+Hell",
-                trailer: "https://www.youtube.com/embed/sL2x5n-K42E"
-            },
-            {
-                title: "Jailbreak",
-                description: "Vyber si stranu, uteč z väzenia ako zločinec alebo chytaj zločincov ako policajt v obrovskom otvorenom svete.",
-                url: "https://www.roblox.com/games/606849621/Jailbreak",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Jailbreak",
-                trailer: "https://www.youtube.com/embed/2_YJj3iL8Xw"
-            },
-            {
-                title: "Royale High",
-                description: "Preskúmaj magickú strednú školu, spoznávaj priateľov a uč sa o móde a kráse v tomto čarovnom svete.",
-                url: "https://www.roblox.com/games/735030788/Royale-High",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Royale+High",
-                trailer: "https://www.youtube.com/embed/Y0rQ1_2hY9A"
-            },
-            {
-                title: "Piggy",
-                description: "Uteč pred ošípanou Piggy a vyrieš záhady, ktoré ju ovládajú.",
-                url: "https://www.roblox.com/games/4623386862/Piggy",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Piggy",
-                trailer: "https://www.youtube.com/embed/PjE5Xz0e7Q4"
-            },
-            {
-                title: "Survive the Killer!",
-                description: "Vyhnite sa zabijakovi, ktorý sa vás snaží chytiť a nájdite spôsob ako prežiť.",
-                url: "https://www.roblox.com/games/1550993080/Survive-the-Killer",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Survive+the+Killer!",
-                trailer: "https://www.youtube.com/embed/K9Jj0s-6y94"
-            },
-            {
-                title: "Arsenal",
-                description: "Rýchla a dynamická FPS strieľačka s množstvom zbraní a herných módov. Ovládni bojisko!",
-                url: "https://www.roblox.com/games/2126496662/Arsenal",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Arsenal",
-                trailer: "https://www.youtube.com/embed/fW4o8U8xS7I"
-            },
-            {
-                title: "Welcome to Bloxburg",
-                description: "Postav si dom, pracuj a stretávaj sa s priateľmi v tomto obľúbenom životnom simulátore.",
-                url: "https://www.roblox.com/games/185655149/Welcome-to-Bloxburg",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Welcome+to+Bloxburg",
-                trailer: "https://www.youtube.com/embed/v9qj82rNnRo"
-            },
-            {
-                title: "Tower Defense Simulator",
-                description: "Postav veže a bráň sa pred vlnami nepriateľov, aby si prežil.",
-                url: "https://www.roblox.com/games/3260590325/Tower-Defense-Simulátor",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Tower+Defense+Simulator",
-                trailer: "https://www.youtube.com/embed/m7wFfRj8j-k"
-            },
-            {
-                title: "Work at a Pizza Place",
-                description: "Zaži, aké je to pracovať v pizzérii s priateľmi a plniť objednávky zákazníkov.",
-                url: "https://www.roblox.com/games/192244463/Work-at-a-Pizza-Place",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Work+at+a+Pizza+Place",
-                trailer: "https://www.youtube.com/embed/j_1M5b-e9sI"
-            },
-            {
-                title: "Natural Disaster Survival",
-                description: "Preži prírodné katastrofy, ktoré zničia mapu, aby si sa dostal do bezpečia.",
-                url: "https://www.roblox.com/games/18972624/Natural-Disaster-Survival",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Natural+Disaster+Survival",
-                trailer: "https://www.youtube.com/embed/nU2g8Fj3s0M"
-            },
-            {
-                title: "Hide and Seek Extreme",
-                description: "Schovávaj sa pred hľadačom alebo hľadaj iných v obrovských a detailných mapách.",
-                url: "https://www.roblox.com/games/195047895/Hide-and-Seek-Extreme",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Hide+and+Seek+Extreme",
-                trailer: "https://www.youtube.com/embed/3l3V3rX-g4s"
-            }
-        ];
+        // Zoznam Roblox hier ako JavaScript objekt.
+        const roblastGames = [
+            {
+                title: "Brookhaven RP",
+                description: "Hraj roly a žij život v meste, kde máš absolútnu slobodu pri výbere svojho príbehu.",
+                url: "https://www.roblox.com/games/4924922222/Brookhaven-RP",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Brookhaven+RP",
+                trailer: "https://www.youtube.com/embed/H37Uv7l7r6o",
+                isPaid: true
+            },
+            {
+                title: "Blox Fruits",
+                description: "Staň sa mocným pirátom alebo námorníkom a hľadaj legendárne diablovské ovocie.",
+                url: "https://www.roblox.com/games/2753915549/Blox-Fruits",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Blox+Fruits",
+                trailer: "https://www.youtube.com/embed/5F77L2d6n7k",
+                isPaid: true
+            },
+            {
+                title: "Adopt Me!",
+                description: "Vytvor si domov, adoptuj a staraj sa o roztomilé domáce zvieratká v obrovskom svete.",
+                url: "https://www.roblox.com/games/920587237/Adopt-Me",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Adopt+Me!",
+                trailer: "https://www.youtube.com/embed/2-nFh0sD2iM",
+                isPaid: true
+            },
+            {
+                title: "Pet Simulator 99",
+                description: "Zbieraj, trénuj a obchoduj so stovkami jedinečných zvieratiek v tomto obľúbenom simulátore.",
+                url: "https://www.roblox.com/games/13778548971/Pet-Simulator-99",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Pet+Simulator+99",
+                trailer: "https://www.youtube.com/embed/9fO48l1_cT0",
+                isPaid: true
+            },
+            {
+                title: "Murder Mystery 2",
+                description: "Odhaľ vraha, chráň nevinných alebo prekaz plány ako vrah v tejto napínavej hre.",
+                url: "https://www.roblox.com/games/1428232911/Murder-Mystery-2",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Murder+Mystery+2",
+                trailer: "https://www.youtube.com/embed/mG33m1W1d28",
+                isPaid: true
+            },
+            {
+                title: "Murder Mystery MM2 Factory",
+                description: "V tomto rozšírení obľúbeného Murder Mystery 2 sa presúvate do tajomnej továrne, kde sa každý krok počíta. ",
+                url: "https://www.roblox.com/share?code=759eeafde79d32449700202d2aeebd9b&type=ExperienceDetails&stamp=1755697774740",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=MM2+Factory",
+                trailer: "https://www.youtube.com/embed/sL2x5n-K42E",
+                isPaid: true
+            },
+            {
+                title: "Evade",
+                description: "Uteč pred strašidelnými entitami v desivej naháňačke na rôznych mapách.",
+                url: "https://www.roblox.com/games/6684784400/Evade",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Evade",
+                trailer: "https://www.youtube.com/embed/1J6-z6fFqE8",
+                isPaid: true
+            },
+            {
+                title: "Doors",
+                description: "Preži noc v hoteli, kde ťa za každými dverami čaká nová hororová príšera.",
+                url: "https://www.roblox.com/games/6516141723/Doors",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Doors",
+                trailer: "https://www.youtube.com/embed/v9qj82rNnRo",
+                isPaid: true
+            },
+            {
+                title: "Blade Ball",
+                description: "Rýchla a adrenalínová hra, kde musíte odrážať loptu svojím mečom, aby ste prežili.",
+                url: "https://www.roblox.com/games/13730222180/Blade-Ball",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Blade+Ball",
+                trailer: "https://www.youtube.com/embed/3c013Bq1i2o",
+                isPaid: true
+            },
+            {
+                title: "Tower of Hell",
+                description: "Skáč, šplhaj a prekonávaj nástrahy, aby si sa dostal na vrchol veže, pre ktorú nie sú žiadne kontrolné body!",
+                url: "https://www.roblox.com/games/196208682/Tower-of-Hell",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Tower+of+Hell",
+                trailer: "https://www.youtube.com/embed/sL2x5n-K42E",
+                isPaid: true
+            },
+            {
+                title: "Jailbreak",
+                description: "Vyber si stranu, uteč z väzenia ako zločinec alebo chytaj zločincov ako policajt v obrovskom otvorenom svete.",
+                url: "https://www.roblox.com/games/606849621/Jailbreak",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Jailbreak",
+                trailer: "https://www.youtube.com/embed/2_YJj3iL8Xw",
+                isPaid: true
+            },
+            {
+                title: "Royale High",
+                description: "Preskúmaj magickú strednú školu, spoznávaj priateľov a uč sa o móde a kráse v tomto čarovnom svete.",
+                url: "https://www.roblox.com/games/735030788/Royale-High",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Royale+High",
+                trailer: "https://www.youtube.com/embed/Y0rQ1_2hY9A",
+                isPaid: true
+            },
+            {
+                title: "Piggy",
+                description: "Uteč pred ošípanou Piggy a vyrieš záhady, ktoré ju ovládajú.",
+                url: "https://www.roblox.com/games/4623386862/Piggy",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Piggy",
+                trailer: "https://www.youtube.com/embed/PjE5Xz0e7Q4",
+                isPaid: true
+            },
+            {
+                title: "Survive the Killer!",
+                description: "Vyhnite sa zabijakovi, ktorý sa vás snaží chytiť a nájdite spôsob ako prežiť.",
+                url: "https://www.roblox.com/games/1550993080/Survive-the-Killer",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Survive+the+Killer!",
+                trailer: "https://www.youtube.com/embed/K9Jj0s-6y94",
+                isPaid: true
+            },
+            {
+                title: "Arsenal",
+                description: "Rýchla a dynamická FPS strieľačka s množstvom zbraní a herných módov. Ovládni bojisko!",
+                url: "https://www.roblox.com/games/2126496662/Arsenal",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Arsenal",
+                trailer: "https://www.youtube.com/embed/fW4o8U8xS7I",
+                isPaid: true
+            },
+            {
+                title: "Welcome to Bloxburg",
+                description: "Postav si dom, pracuj a stretávaj sa s priateľmi v tomto obľúbenom životnom simulátore.",
+                url: "https://www.roblox.com/games/185655149/Welcome-to-Bloxburg",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Welcome+to+Bloxburg",
+                trailer: "https://www.youtube.com/embed/v9qj82rNnRo",
+                isPaid: true
+            },
+            {
+                title: "Tower Defense Simulator",
+                description: "Postav veže a bráň sa pred vlnami nepriateľov, aby si prežil.",
+                url: "https://www.roblox.com/games/3260590325/Tower-Defense-Simulátor",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Tower+Defense+Simulator",
+                trailer: "https://www.youtube.com/embed/m7wFfRj8j-k",
+                isPaid: true
+            },
+            {
+                title: "Work at a Pizza Place",
+                description: "Zaži, aké je to pracovať v pizzérii s priateľmi a plniť objednávky zákazníkov.",
+                url: "https://www.roblox.com/games/192244463/Work-at-a-Pizza-Place",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Work+at+a+Pizza+Place",
+                trailer: "https://www.youtube.com/embed/j_1M5b-e9sI",
+                isPaid: true
+            },
+            {
+                title: "Natural Disaster Survival",
+                description: "Preži prírodné katastrofy, ktoré zničia mapu, aby si sa dostal do bezpečia.",
+                url: "https://www.roblox.com/games/18972624/Natural-Disaster-Survival",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Natural+Disaster+Survival",
+                trailer: "https://www.youtube.com/embed/nU2g8Fj3s0M",
+                isPaid: true
+            },
+            {
+                title: "Hide and Seek Extreme",
+                description: "Schovávaj sa pred hľadačom alebo hľadaj iných v obrovských a detailných mapách.",
+                url: "https://www.roblox.com/games/195047895/Hide-and-Seek-Extreme",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Hide+and+Seek+Extreme",
+                trailer: "https://www.youtube.com/embed/3l3V3rX-g4s",
+                isPaid: true
+            }
+        ];
 
-        // Zoznam Steam hier ako JavaScript objekt.
-        const steamGames = [
-            {
-                title: "Cyberpunk 2077",
-                description: "Rozsiahla akčná RPG hra s otvoreným svetom v dystopickom meste Night City.",
-                url: "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Cyberpunk+2077",
-                trailer: "https://www.youtube.com/embed/8X2kIfS6fb8"
-            },
-            {
-                title: "Elden Ring",
-                description: "Ocenená akčná RPG s otvoreným svetom od tvorcov Dark Souls a Georgea R. R. Martina.",
-                url: "https://store.steampowered.com/app/1245620/ELDEN_RING/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Elden+Ring",
-                trailer: "https://www.youtube.com/embed/K_B7tJz1b-g"
-            },
-            {
-                title: "Red Dead Redemption 2",
-                description: "Epický westernový príbeh o cti a lojalite v drsnom a rozľahlom svete Divokého západu.",
-                url: "https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=RDR2",
-                trailer: "https://www.youtube.com/embed/eaW0tJ-JdGw"
-            },
-            {
-                title: "Stardew Valley",
-                description: "Krásna a relaxačná farmárska simulačná hra s prvkami RPG.",
-                url: "https://store.steampowered.com/app/413150/Stardew_Valley/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Stardew+Valley",
-                trailer: "https://www.youtube.com/embed/otz_P64I0lM"
-            },
-            {
-                title: "Hogwarts Legacy",
-                description: "Vstúpte do sveta čarov a mágie ako študent na Škole čarodejníckej a kúzelníckej v Rokforte.",
-                url: "https://store.steampowered.com/app/9900/Hogwarts_Legacy/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Hogwarts+Legacy",
-                trailer: "https://www.youtube.com/embed/C28z-x-qM8Y"
-            },
-            {
-                title: "Baldur's Gate 3",
-                description: "Vynikajúca RPG hra s hlbokým príbehom, kde vaše rozhodnutia ovplyvňujú svet.",
-                url: "https://store.steampowered.com/app/1086940/Baldurs_Gate_3/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Baldur's+Gate+3",
-                trailer: "https://www.youtube.com/embed/t4wXg1k8d-Q"
-            },
-            {
-                title: "Grand Theft Auto V",
-                description: "Legendárny otvorený svet, v ktorom môžete prežiť tri odlišné príbehy a preskúmať obrovské Los Santos.",
-                url: "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=GTA+V",
-                trailer: "https://www.youtube.com/embed/Qkkoea-q9yY"
-            },
-            {
-                title: "Palworld",
-                description: "Hra, kde chytáte príšery, staviate si základňu a prežívate v otvorenom svete.",
-                url: "https://store.steampowered.com/app/1623730/Palworld/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Palworld",
-                trailer: "https://www.youtube.com/embed/jQk6UoF0w8s"
-            }
-        ];
+        // Zoznam Steam hier ako JavaScript objekt.
+        const steamGames = [
+            {
+                title: "Cyberpunk 2077",
+                description: "Rozsiahla akčná RPG hra s otvoreným svetom v dystopickom meste Night City.",
+                url: "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Cyberpunk+2077",
+                trailer: "https://www.youtube.com/embed/8X2kIfS6fb8",
+                isPaid: true
+            },
+            {
+                title: "Elden Ring",
+                description: "Ocenená akčná RPG s otvoreným svetom od tvorcov Dark Souls a Georgea R. R. Martina.",
+                url: "https://store.steampowered.com/app/1245620/ELDEN_RING/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Elden+Ring",
+                trailer: "https://www.youtube.com/embed/K_B7tJz1b-g",
+                isPaid: true
+            },
+            {
+                title: "Red Dead Redemption 2",
+                description: "Epický westernový príbeh o cti a lojalite v drsnom a rozľahlom svete Divokého západu.",
+                url: "https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=RDR2",
+                trailer: "https://www.youtube.com/embed/eaW0tJ-JdGw",
+                isPaid: true
+            },
+            {
+                title: "Stardew Valley",
+                description: "Krásna a relaxačná farmárska simulačná hra s prvkami RPG.",
+                url: "https://store.steampowered.com/app/413150/Stardew_Valley/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Stardew+Valley",
+                trailer: "https://www.youtube.com/embed/otz_P64I0lM",
+                isPaid: true
+            },
+            {
+                title: "Hogwarts Legacy",
+                description: "Vstúpte do sveta čarov a mágie ako študent na Škole čarodejníckej a kúzelníckej v Rokforte.",
+                url: "https://store.steampowered.com/app/9900/Hogwarts_Legacy/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Hogwarts+Legacy",
+                trailer: "https://www.youtube.com/embed/C28z-x-qM8Y",
+                isPaid: true
+            },
+            {
+                title: "Baldur's Gate 3",
+                description: "Vynikajúca RPG hra s hlbokým príbehom, kde vaše rozhodnutia ovplyvňujú svet.",
+                url: "https://store.steampowered.com/app/1086940/Baldurs_Gate_3/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Baldur's+Gate+3",
+                trailer: "https://www.youtube.com/embed/t4wXg1k8d-Q",
+                isPaid: true
+            },
+            {
+                title: "Grand Theft Auto V",
+                description: "Legendárny otvorený svet, v ktorom môžete prežiť tri odlišné príbehy a preskúmať obrovské Los Santos.",
+                url: "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=GTA+V",
+                trailer: "https://www.youtube.com/embed/Qkkoea-q9yY",
+                isPaid: true
+            },
+            {
+                title: "Palworld",
+                description: "Hra, kde chytáte príšery, staviate si základňu a prežívate v otvorenom svete.",
+                url: "https://store.steampowered.com/app/1623730/Palworld/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Palworld",
+                trailer: "https://www.youtube.com/embed/jQk6UoF0w8s",
+                isPaid: true
+            }
+        ];
 
-        // Vytvára hernú kartu pre Roblast.
-        function createGameCard(game) {
-            const card = document.createElement('div');
-            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
-            card.innerHTML = `
-                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
-                <div class="p-6 flex flex-col justify-between flex-1">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
-                        <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
-                    </div>
-                    <button class="w-full bg-[#238636] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200 mt-auto" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
-                        Kúpiť teraz
-                    </button>
-                </div>
-            `;
-            return card;
-        }
+        // Vytvára hernú kartu pre Roblast.
+        function createGameCard(game) {
+            const card = document.createElement('div');
+            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
+            card.innerHTML = `
+                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
+                <div class="p-6 flex flex-col justify-between flex-1">
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
+                        <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
+                    </div>
+                    <button class="w-full bg-[#238636] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200 mt-auto" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
+                        Kúpiť hru
+                    </button>
+                </div>
+            `;
+            return card;
+        }
 
-        // Funkcia, ktorá vytvorí a vloží karty Steam hier do HTML.
-        function createSteamGameCards() {
-            const container = document.getElementById('steam-game-list');
-            steamGames.forEach(game => {
-                container.appendChild(createGameCard(game));
-            });
-        }
+        // Vytvára hernú kartu pre Steam.
+        function createSteamGameCard(game) {
+            const card = document.createElement('div');
+            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
+            card.innerHTML = `
+                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
+                <div class="p-6 flex flex-col justify-between flex-1">
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
+                        <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
+                    </div>
+                    <button class="w-full bg-[#2a73c2] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2263a4] transition-colors duration-200 mt-auto" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
+                        Kúpiť hru
+                    </button>
+                </div>
+            `;
+            return card;
+        }
 
-        // Funkcia, ktorá vytvorí a vloží karty Roblox hier do HTML.
-        function createRoblastGameCards() {
-            const container = document.getElementById('roblast-game-list');
-            roblastGames.forEach(game => {
-                const card = document.createElement('div');
-                card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
-                card.innerHTML = `
-                    <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col justify-between flex-1">
-                        <div>
-                            <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
-                            <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
-                        </div>
-                        <a href="${game.url}" target="_blank" class="w-full bg-[#238636] text-white font-semibold py-2 px-4 rounded-full shadow-lg text-center hover:bg-[#2ea043] transition-colors duration-200 mt-auto">
-                            Hrať teraz
-                        </a>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+        // Vytvára video kartu pre trailery.
+        function createVideoCard(video) {
+            const videoCard = document.createElement('div');
+            videoCard.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden';
+            videoCard.innerHTML = `
+                <div class="video-container">
+                    <iframe width="560" height="315" src="${video.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${video.title} Trailer</h3>
+                    <p class="text-[#8b949e] text-sm">${video.description}</p>
+                </div>
+            `;
+            return videoCard;
+        }
 
-        // Funkcia, ktorá vytvorí a vloží YouTube videá do HTML.
-        function createTrailerVideos() {
-            const container = document.getElementById('trailer-list');
-            // Spojenie všetkých hier do jedného zoznamu pre trailery.
-            const allGames = [...roblastGames, ...steamGames];
-            allGames.forEach(game => {
-                const videoWrapper = document.createElement('div');
-                videoWrapper.className = 'bg-[#161b22] rounded-2xl shadow-md p-6';
-                videoWrapper.innerHTML = `
-                    <h3 class="text-xl font-bold mb-4 text-center text-[#58a6ff]">${game.title} Trailer</h3>
-                    <div class="video-container">
-                        <iframe src="${game.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                `;
-                container.appendChild(videoWrapper);
-            });
-        }
+        // Vytvorí všetky karty pre Roblast hry.
+        function createRoblastGameCards() {
+            const container = document.getElementById('roblast-game-list');
+            roblastGames.forEach(game => {
+                container.appendChild(createGameCard(game));
+            });
+        }
+        
+        // Vytvorí všetky karty pre Steam hry.
+        function createSteamGameCards() {
+            const container = document.getElementById('steam-game-list');
+            steamGames.forEach(game => {
+                container.appendChild(createSteamGameCard(game));
+            });
+        }
 
-        // Spustí generovanie kariet pre Roblox hry, keď sa stránka načíta.
-        document.addEventListener('DOMContentLoaded', () => {
-            createRoblastGameCards();
-        });
-    </script>
+        // Vytvorí všetky video karty pre trailery.
+        function createTrailerVideos() {
+            const container = document.getElementById('trailer-list');
+            // Získame všetky hry, ktoré majú trailer
+            const allGamesWithTrailers = [...roblastGames, ...steamGames];
+            
+            // Náhodne premiešame pole, aby sa trailery neopakovali v rovnakom poradí
+            allGamesWithTrailers.sort(() => Math.random() - 0.5);
 
+            // Vezmeme len unique trailery, aby sa neopakovali
+            const uniqueTrailers = [];
+            const trailerUrls = new Set();
+            for (const game of allGamesWithTrailers) {
+                if (game.trailer && !trailerUrls.has(game.trailer)) {
+                    trailerUrls.add(game.trailer);
+                    uniqueTrailers.push(game);
+                }
+            }
+
+            // Vytvoríme video karty pre prvé štyri unikátne trailery (alebo menej, ak ich je menej ako 4)
+            uniqueTrailers.slice(0, 4).forEach(game => {
+                container.appendChild(createVideoCard(game));
+            });
+        }
+
+        // Spustí sa, keď je celá stránka načítaná.
+        document.addEventListener('DOMContentLoaded', () => {
+            // Vytvorí karty pre Roblast hry hneď pri načítaní, pretože je to prvá stránka.
+            createRoblastGameCards();
+        });
+
+    </script>
 </body>
 </html>
+
+
 
