@@ -92,11 +92,9 @@
 </head>
 <body class="bg-[#0d1117] text-[#c9d1d9]">
 
-    <!-- Hlavička -->
     <header class="bg-[#161b22] shadow-lg sticky top-0 z-50">
         <div class="container flex justify-between items-center py-4">
             <div class="flex items-center space-x-2">
-                <!-- Zmena: Pôvodné SVG logo bolo nahradené ikonou Roblox -->
                 <img src="https://www.roblox.com/Roblox.ico" alt="Roblox Logo" class="h-8 w-8">
                 <a href="#" class="text-3xl font-bold text-[#58a6ff] hover:text-white transition-colors duration-200" onclick="showPage('roblast-page')">Roblast</a>
             </div>
@@ -108,12 +106,10 @@
                 <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">Stiahnuť</a>
                 <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">Prihlásiť sa</a>
             </nav>
-            <!-- Mobilné menu -->
             <button class="md:hidden text-2xl" onclick="toggleMenu()">
                 &#9776;
             </button>
         </div>
-        <!-- Skryté mobilné menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-[#161b22] p-4 text-center space-y-4">
             <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('roblast-page')">Roblox</a>
             <a href="#" class="block hover:text-[#58a6ff]" onclick="showPage('steam-page')">Steam Gaming</a>
@@ -125,9 +121,7 @@
     </header>
 
     <main class="container py-8">
-        <!-- Roblox sekcia (predvolene zobrazená) -->
         <div id="roblast-page" class="page-content">
-            <!-- Hlavný banner -->
             <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Objav svet Roblastu!</h1>
                 <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Tvoja vstupenka do nekonečnej zábavy. Vytváraj, hraj a spoznávaj nových priateľov.</p>
@@ -136,34 +130,27 @@
                 </button>
             </section>
 
-            <!-- Sekcia populárne hry -->
             <section class="mb-12">
                 <h2 class="text-3xl font-bold mb-6 text-center">Naše najpopulárnejšie hry</h2>
                 <div id="roblast-game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Herné karty budú vložené sem pomocou JavaScriptu -->
-                </div>
+                    </div>
                 <p class="text-center mt-8 text-lg text-[#8b949e]">A ďalšie... Spolu máme vyše 200 hier!</p>
             </section>
         </div>
 
-        <!-- Steam Gaming sekcia (predvolene skrytá) -->
         <div id="steam-page" class="hidden page-content">
-            <!-- Steam banner -->
             <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Steam Gaming</h1>
                 <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Objav najlepšie a najhranejšie hry z celého sveta počítačových hier!</p>
             </section>
 
-            <!-- Sekcia Steam hry -->
             <section class="mb-12">
                 <h2 class="text-3xl font-bold mb-6 text-center">Populárne Steam hry</h2>
                 <div id="steam-game-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Herné karty Steam budú vložené sem pomocou JavaScriptu -->
-                </div>
+                    </div>
             </section>
         </div>
 
-        <!-- Trailer sekcia (predvolene skrytá) -->
         <div id="trailer-page" class="hidden page-content">
             <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Oficiálne trailery</h1>
@@ -171,19 +158,16 @@
             </section>
             <section class="mb-12">
                 <div id="trailer-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Trailery budú vložené sem pomocou JavaScriptu -->
-                </div>
+                    </div>
             </section>
         </div>
 
-
-        <!-- Obchod - PaySafeCard sekcia (predvolene skrytá) -->
         <div id="shop-page" class="hidden page-content">
             <section class="text-center py-20 bg-[#161b22] rounded-3xl shadow-lg mb-12">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-[#58a6ff]">Obchod Roblast</h1>
-                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Vygeneruj si simulovaný PaySafeCard kód pre tvoje nákupy.</p>
+                <p class="text-lg sm:text-xl text-[#8b949e] mb-8">Vygeneruj si simulovaný Drvie Pie kód pre tvoje nákupy.</p>
                 <div class="flex flex-col items-center">
-                    <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="generatePaysafeCode()">
+                    <button class="bg-[#238636] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200" onclick="generateDrviePieCode()">
                         Vygenerovať nový kód
                     </button>
                     <div id="generated-code-container" class="mt-8 flex flex-col items-center hidden">
@@ -202,7 +186,6 @@
             </section>
         </div>
 
-        <!-- Sekcia Prečo si vybrať Roblast (spoločná pre obe stránky) -->
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-6 text-center">Prečo si vybrať nás?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
@@ -221,7 +204,6 @@
             </div>
         </section>
 
-        <!-- Sekcia Vyzývam ťa do sveta Roblastu! (spoločná pre obe stránky) -->
         <section class="text-center py-16 bg-[#161b22] rounded-3xl shadow-lg">
             <h2 class="text-3xl sm:text-4xl font-bold mb-4">Pripravený začať?</h2>
             <p class="text-lg text-[#8b949e] mb-8">Pripoj sa k miliónom hráčov a začni svoju cestu už dnes!</p>
@@ -231,7 +213,6 @@
         </section>
     </main>
 
-    <!-- Pätička -->
     <footer class="bg-[#161b22] py-8 mt-12 text-center text-[#8b949e]">
         <div class="container">
             <nav class="space-x-4 mb-4">
@@ -241,7 +222,6 @@
                 <a href="#" class="hover:text-white transition-colors duration-200">Podmienky používania</a>
             </nav>
             <div class="flex justify-center space-x-4 mb-4">
-                <!-- Sociálne siete - SVG ikony -->
                 <a href="#" class="hover:text-[#58a6ff] transition-colors duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M22.25 12c0-5.46-4.9-9.89-10.9-9.89S.25 6.54.25 12c0 4.9 3.55 8.98 8.1 9.7v-7.14H5.72v-2.56h2.63V9.75c0-2.6 1.5-4.04 3.94-4.04 1.15 0 2.37.2 2.37.2v2.6h-1.34c-1.32 0-1.74.83-1.74 1.74v2.09h2.95l-.47 2.56h-2.48V21.7c4.55-.72 8.1-4.8 8.1-9.7z"/></svg>
                 </a>
@@ -275,6 +255,7 @@
         }
 
         // Funkcia na zobrazenie platobného okna s overením kódu.
+        // Prijíma URL, na ktorú má používateľa presmerovať po úspešnej platbe.
         function showPaymentPrompt(gameTitle, gameUrl) {
             // Kontrola, či existuje vygenerovaný kód.
             if (!lastGeneratedCode) {
@@ -290,8 +271,8 @@
             messageBox.classList.add('message-box');
             
             messageBox.innerHTML = `
-                <p>Prosím, zadaj 16-miestny kód PaySafeCard pre hru ${gameTitle}:</p>
-                <input type="text" id="paysafe-code-input" placeholder="Zadaj kód tu..." maxlength="19">
+                <p>Prosím, zadaj 16-miestny kód Drvie Pie pre hru ${gameTitle}:</p>
+                <input type="text" id="drviepie-code-input" placeholder="Zadaj kód tu..." maxlength="19">
                 <span id="error-message" class="error-message hidden"></span>
                 <div class="flex gap-4">
                     <button id="submit-payment">Zaplatit</button>
@@ -301,7 +282,7 @@
             document.body.appendChild(messageBox);
 
             const submitButton = document.getElementById('submit-payment');
-            const codeInput = document.getElementById('paysafe-code-input');
+            const codeInput = document.getElementById('drviepie-code-input');
             const errorMessage = document.getElementById('error-message');
             
             // Pridá event listener na tlačidlo Zaplatiť.
@@ -310,13 +291,12 @@
                 const code = codeInput.value.replace(/[\s-]/g, '');
 
                 if (code === lastGeneratedCode) {
-                    // Ak je kód správny, zobrazí hlášku o úspešnej platbe a po 2 sekundách presmeruje.
-                    showMessage('Platba bola úspešná! Hra sa sťahuje...');
-                    setTimeout(() => {
-                        // V tomto prípade nesmerujeme na skutočnú hru, ale simulujeme stiahnutie.
-                        showMessage('Sťahovanie dokončené! V reálnom svete by ste teraz hrali hru.');
-                        messageBox.remove();
-                    }, 2000);
+                    // Ak je kód správny, zobrazí hlášku o úspešnej platbe a presmeruje.
+                    showMessage('Platba bola úspešná! Otváram stránku s hrou...');
+                    // Presmeruje používateľa na URL hry v novom okne.
+                    window.open(gameUrl, '_blank');
+                    // Zatvorí platobné okno, keďže už nie je potrebné.
+                    messageBox.remove();
                 } else {
                     // Ak kód nie je správny, zobrazí sa chyba.
                     errorMessage.textContent = 'Neplatný kód. Skús znova.';
@@ -325,8 +305,8 @@
             });
         }
 
-        // Funkcia na generovanie náhodného PaySafeCard kódu.
-        function generatePaysafeCode() {
+        // Funkcia na generovanie náhodného Drvie Pie kódu.
+        function generateDrviePieCode() {
             const codeContainer = document.getElementById('generated-code-container');
             const codeDisplay = document.getElementById('generated-code-display');
             let generatedCode = '';
@@ -581,82 +561,95 @@
                 url: "https://store.steampowered.com/app/1623730/Palworld/",
                 image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Palworld",
                 trailer: "https://www.youtube.com/embed/jQk6UoF0w8s"
-            },
-            {
-                title: "Rust",
-                description: "Hardcore prežitie, kde musíte bojovať proti hladu, chladu a iným hráčom.",
-                url: "https://store.steampowered.com/app/252490/Rust/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Rust",
-                trailer: "https://www.youtube.com/embed/HqC_c1u1V10"
-            },
-            {
-                title: "Terraria",
-                description: "2D sandbox dobrodružstvo, kde objavujete, staviate a bojujete proti rôznym nepriateľom.",
-                url: "https://store.steampowered.com/app/105600/Terraria/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Terraria",
-                trailer: "https://www.youtube.com/embed/w7uOhFStqF0"
             }
         ];
 
-        // Funkcia, ktorá vytvorí hernú kartu pre danú hru.
+        // Vytvára hernú kartu pre Roblast.
         function createGameCard(game) {
-            return `
-                <div class="bg-[#161b22] rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-200">
-                    <img src="${game.image}" alt="${game.title}" class="w-full h-auto">
-                    <div class="p-6">
+            const card = document.createElement('div');
+            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
+            card.innerHTML = `
+                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
+                <div class="p-6 flex flex-col justify-between flex-1">
+                    <div>
                         <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
                         <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
-                        <button onclick="showPaymentPrompt('${game.title}', '${game.url}')" class="w-full bg-[#238636] text-white font-semibold py-2 px-4 rounded-full hover:bg-[#2ea043] transition-colors duration-200">
-                            Stiahnuť
-                        </button>
                     </div>
+                    <button class="w-full bg-[#238636] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200 mt-auto" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
+                        Kúpiť hru
+                    </button>
                 </div>
             `;
+            return card;
         }
 
-        // Funkcia na vytvorenie kariet Roblox hier.
-        function createRoblastGameCards() {
-            const container = document.getElementById('roblast-game-list');
-            container.innerHTML = roblastGames.map(createGameCard).join('');
-        }
-
-        // Funkcia na vytvorenie kariet Steam hier.
-        function createSteamGameCards() {
-            const container = document.getElementById('steam-game-list');
-            container.innerHTML = steamGames.map(createGameCard).join('');
-        }
-
-        // Funkcia na vytvorenie YouTube trailerov.
-        function createTrailerVideos() {
-            const container = document.getElementById('trailer-list');
-            // Vyčistí existujúci obsah, aby sa trailery nepridávali opakovane.
-            container.innerHTML = ''; 
-            // Použije zoznam Steam hier
-            const games = steamGames; 
-            games.forEach(game => {
-                const videoCard = `
-                    <div class="bg-[#161b22] rounded-3xl overflow-hidden shadow-lg p-4">
-                        <h3 class="text-xl font-bold mb-4 text-[#58a6ff] text-center">${game.title} Trailer</h3>
-                        <div class="video-container">
-                            <iframe
-                                src="${game.trailer}"
-                                title="${game.title} Trailer"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
-                        </div>
+        // Vytvára hernú kartu pre Steam.
+        function createSteamGameCard(game) {
+            const card = document.createElement('div');
+            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
+            card.innerHTML = `
+                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
+                <div class="p-6 flex flex-col justify-between flex-1">
+                    <div>
+                        <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
+                        <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
                     </div>
-                `;
-                container.innerHTML += videoCard;
+                    <a href="${game.url}" target="_blank" class="w-full text-center bg-[#2a73c2] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2263a4] transition-colors duration-200 mt-auto">
+                        Navštíviť stránku
+                    </a>
+                </div>
+            `;
+            return card;
+        }
+
+        // Vytvára video kartu pre trailer.
+        function createTrailerVideo(game) {
+            const card = document.createElement('div');
+            card.className = 'bg-[#161b22] rounded-2xl shadow-md p-4';
+            card.innerHTML = `
+                <h3 class="text-xl font-bold mb-4 text-[#58a6ff] text-center">${game.title} Trailer</h3>
+                <div class="video-container">
+                    <iframe src="${game.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            `;
+            return card;
+        }
+
+        // Vloží herné karty pre Roblast.
+        function createRoblastGameCards() {
+            const gameListContainer = document.getElementById('roblast-game-list');
+            roblastGames.forEach(game => {
+                gameListContainer.appendChild(createGameCard(game));
             });
         }
 
-        // Spustí generovanie kariet pri prvom načítaní stránky.
-        window.onload = function() {
-            createRoblastGameCards();
+        // Vloží herné karty pre Steam.
+        function createSteamGameCards() {
+            const gameListContainer = document.getElementById('steam-game-list');
+            steamGames.forEach(game => {
+                gameListContainer.appendChild(createSteamGameCard(game));
+            });
+        }
+        
+        // Vloží video karty pre trailery.
+        function createTrailerVideos() {
+            const trailerListContainer = document.getElementById('trailer-list');
+            // Zlúči zoznamy hier
+            const allGames = [...roblastGames, ...steamGames];
+            // Odstráni duplikáty trailerov a vloží ich
+            const uniqueTrailers = new Set();
+            allGames.forEach(game => {
+                if (game.trailer && !uniqueTrailers.has(game.trailer)) {
+                    trailerListContainer.appendChild(createTrailerVideo(game));
+                    uniqueTrailers.add(game.trailer);
+                }
+            });
         }
 
+        // Spustí generovanie kariet pre Roblox po načítaní stránky.
+        document.addEventListener('DOMContentLoaded', () => {
+            createRoblastGameCards();
+        });
     </script>
 </body>
 </html>
