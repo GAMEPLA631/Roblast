@@ -172,14 +172,12 @@
                     </button>
                     <div id="generated-code-container" class="mt-8 flex flex-col items-center hidden">
                         <p class="text-lg text-[#8b949e] mb-2">Tvoj vygenerovaný kód:</p>
-                        <div class="flex items-center space-x-4">
-                            <div id="generated-code-display" class="generated-code"></div>
-                            <button onclick="copyToClipboard('generated-code-display')" class="bg-[#2a73c2] text-white p-2 rounded-full hover:bg-[#2263a4] transition-colors duration-200" aria-label="Kopírovať kód">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                                </svg>
-                            </button>
-                        </div>
+                        <div id="generated-code-display" class="generated-code"></div>
+                        <button onclick="copyToClipboard('generated-code-display')" class="bg-[#2a73c2] text-white p-2 rounded-full hover:bg-[#2263a4] transition-colors duration-200" aria-label="Kopírovať kód">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4C2.9 1 2 1.9 2 3v14h2V3h12V1zm3 4H8C6.9 5 6 5.9 6 7v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                        </button>
                         <p class="text-sm text-[#8b949e] mt-4">Kód je iba pre ukážku a nie je platný.</p>
                     </div>
                 </div>
@@ -359,6 +357,60 @@
                 createTrailerVideos();
             }
         }
+        
+        // Funkcia na vytvorenie karty hry.
+        function createGameCard(game) {
+            return `
+                <div class="bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-200">
+                    <img src="${game.image}" alt="Herný obrázok pre ${game.title}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">${game.title}</h3>
+                        <p class="text-sm text-[#8b949e] mb-4">${game.description}</p>
+                        <button class="bg-[#2a73c2] text-white w-full font-semibold py-2 px-4 rounded-full hover:bg-[#2263a4] transition-colors duration-200" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
+                            Spustiť hru
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Funkcia na vytvorenie karty trailera.
+        function createTrailerCard(video) {
+            return `
+                <div class="bg-[#161b22] rounded-2xl shadow-md overflow-hidden p-4">
+                    <h3 class="text-xl font-bold text-center text-white mb-4">${video.title}</h3>
+                    <div class="video-container">
+                        <iframe src="${video.url}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-sm text-[#8b949e] text-center mt-4">${video.description}</p>
+                </div>
+            `;
+        }
+        
+        // Funkcia na generovanie kariet pre Roblox hry.
+        function createRoblastGameCards() {
+            const container = document.getElementById('roblast-game-list');
+            const html = roblastGames.map(game => createGameCard(game)).join('');
+            container.innerHTML = html;
+        }
+
+        // Funkcia na generovanie kariet pre Steam hry.
+        function createSteamGameCards() {
+            const container = document.getElementById('steam-game-list');
+            const html = steamGames.map(game => createGameCard(game)).join('');
+            container.innerHTML = html;
+        }
+
+        // Funkcia na generovanie kariet pre trailery.
+        function createTrailerVideos() {
+            const container = document.getElementById('trailer-list');
+            const combinedVideos = [
+                ...roblastGames.map(g => ({ title: g.title, url: g.trailer, description: g.description })),
+                ...steamGames.map(g => ({ title: g.title, url: g.trailer, description: g.description }))
+            ];
+            const html = combinedVideos.map(video => createTrailerCard(video)).join('');
+            container.innerHTML = html;
+        }
 
         // Zoznam Roblox hier ako JavaScript objekt.
         const roblastGames = [
@@ -526,6 +578,24 @@
 
         // Zoznam Steam hier ako JavaScript objekt.
         const steamGames = [
+            // Nové hry pridané podľa tvojej požiadavky
+            {
+                title: "Counter-Strike: Global Offensive",
+                description: "Najlepšia taktická strieľačka. Hraj so svojím tímom a ovládni bojisko.",
+                url: "https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=CS:GO",
+                trailer: "https://www.youtube.com/embed/edEs_eR-6uQ",
+                isPaid: false // Táto hra je teraz zdarma
+            },
+            {
+                title: "Phasmophobia",
+                description: "Psychologická hororová hra pre 4 hráčov, kde vyšetrujete strašidelné miesta.",
+                url: "https://store.steampowered.com/app/739630/Phasmophobia/",
+                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Phasmophobia",
+                trailer: "https://www.youtube.com/embed/5aL5Y9wY_4o",
+                isPaid: true
+            },
+            // Pôvodné hry
             {
                 title: "Cyberpunk 2077",
                 description: "Rozsiahla akčná RPG hra s otvoreným svetom v dystopickom meste Night City.",
@@ -579,119 +649,15 @@
                 description: "Legendárny otvorený svet, v ktorom môžete prežiť tri odlišné príbehy a preskúmať obrovské Los Santos.",
                 url: "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/",
                 image: "https://placehold.co/400x225/2f3a4b/ffffff?text=GTA+V",
-                trailer: "https://www.youtube.com/embed/Qkkoea-q9yY",
-                isPaid: true
-            },
-            {
-                title: "Palworld",
-                description: "Hra, kde chytáte príšery, staviate si základňu a prežívate v otvorenom svete.",
-                url: "https://store.steampowered.com/app/1623730/Palworld/",
-                image: "https://placehold.co/400x225/2f3a4b/ffffff?text=Palworld",
-                trailer: "https://www.youtube.com/embed/jQk6UoF0w8s",
+                trailer: "https://www.youtube.com/embed/QkkooevS6bo",
                 isPaid: true
             }
         ];
 
-        // Vytvára hernú kartu pre Roblast.
-        function createGameCard(game) {
-            const card = document.createElement('div');
-            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
-            card.innerHTML = `
-                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
-                <div class="p-6 flex flex-col justify-between flex-1">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
-                        <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
-                    </div>
-                    <button class="w-full bg-[#238636] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2ea043] transition-colors duration-200 mt-auto" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
-                        Kúpiť hru
-                    </button>
-                </div>
-            `;
-            return card;
-        }
-
-        // Vytvára hernú kartu pre Steam.
-        function createSteamGameCard(game) {
-            const card = document.createElement('div');
-            card.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between';
-            card.innerHTML = `
-                <img src="${game.image}" alt="Obrázok hry ${game.title}" class="w-full h-48 object-cover">
-                <div class="p-6 flex flex-col justify-between flex-1">
-                    <div>
-                        <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${game.title}</h3>
-                        <p class="text-[#8b949e] text-sm mb-4">${game.description}</p>
-                    </div>
-                    <button class="w-full bg-[#2a73c2] text-white font-semibold py-2 px-4 rounded-full shadow-lg hover:bg-[#2263a4] transition-colors duration-200 mt-auto" onclick="showPaymentPrompt('${game.title}', '${game.url}')">
-                        Kúpiť hru
-                    </button>
-                </div>
-            `;
-            return card;
-        }
-
-        // Vytvára video kartu pre trailery.
-        function createVideoCard(video) {
-            const videoCard = document.createElement('div');
-            videoCard.className = 'bg-[#161b22] rounded-2xl shadow-md overflow-hidden';
-            videoCard.innerHTML = `
-                <div class="video-container">
-                    <iframe width="560" height="315" src="${video.trailer}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2 text-[#58a6ff]">${video.title} Trailer</h3>
-                    <p class="text-[#8b949e] text-sm">${video.description}</p>
-                </div>
-            `;
-            return videoCard;
-        }
-
-        // Vytvorí všetky karty pre Roblast hry.
-        function createRoblastGameCards() {
-            const container = document.getElementById('roblast-game-list');
-            roblastGames.forEach(game => {
-                container.appendChild(createGameCard(game));
-            });
-        }
-        
-        // Vytvorí všetky karty pre Steam hry.
-        function createSteamGameCards() {
-            const container = document.getElementById('steam-game-list');
-            steamGames.forEach(game => {
-                container.appendChild(createSteamGameCard(game));
-            });
-        }
-
-        // Vytvorí všetky video karty pre trailery.
-        function createTrailerVideos() {
-            const container = document.getElementById('trailer-list');
-            // Získame všetky hry, ktoré majú trailer
-            const allGamesWithTrailers = [...roblastGames, ...steamGames];
-            
-            // Náhodne premiešame pole, aby sa trailery neopakovali v rovnakom poradí
-            allGamesWithTrailers.sort(() => Math.random() - 0.5);
-
-            // Vezmeme len unique trailery, aby sa neopakovali
-            const uniqueTrailers = [];
-            const trailerUrls = new Set();
-            for (const game of allGamesWithTrailers) {
-                if (game.trailer && !trailerUrls.has(game.trailer)) {
-                    trailerUrls.add(game.trailer);
-                    uniqueTrailers.push(game);
-                }
-            }
-
-            // Vytvoríme video karty pre prvé štyri unikátne trailery (alebo menej, ak ich je menej ako 4)
-            uniqueTrailers.slice(0, 4).forEach(game => {
-                container.appendChild(createVideoCard(game));
-            });
-        }
-
-        // Spustí sa, keď je celá stránka načítaná.
-        document.addEventListener('DOMContentLoaded', () => {
-            // Vytvorí karty pre Roblast hry hneď pri načítaní, pretože je to prvá stránka.
+        // Spustenie generovania kariet pre Roblox hry pri načítaní stránky.
+        window.onload = function() {
             createRoblastGameCards();
-        });
+        };
 
     </script>
 </body>
